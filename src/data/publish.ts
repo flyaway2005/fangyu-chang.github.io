@@ -46,12 +46,5 @@ export const publishSettings: Record<string, ProjectPublishSettings> = {
     showExtraLinks: false,
   },
 
-  // Draft projects — set live: true when ready to publish
-  'kg-rag-legal': { live: false },
-  'salary-benchmarking': { live: false, featured: true },
-  'employee-insights': { live: false, featured: true },
-  'singapore-labour-market': { live: false },
-  'hotel-reviews': { live: false },
-  'reddit-sna': { live: false },
-  'uganda-finscope': { live: false },
+  // Add more slugs here when moving projects from projects.draft.ts into projects.ts
 };

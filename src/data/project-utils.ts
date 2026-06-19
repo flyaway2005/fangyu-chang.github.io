@@ -1,20 +1,17 @@
 import type { Project } from '../types/project';
 import { projects } from './projects';
-import { draftProjects } from './projects.draft';
 import { publishSettings, type ProjectPublishSettings } from './publish';
-
-const allProjects: Project[] = [...projects, ...draftProjects];
 
 export function getPublishSettings(slug: string): ProjectPublishSettings {
   return publishSettings[slug] ?? { live: false };
 }
 
 export function getPublishedProjects(): Project[] {
-  return allProjects.filter((project) => publishSettings[project.slug]?.live === true);
+  return projects.filter((project) => publishSettings[project.slug]?.live === true);
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {
-  const project = allProjects.find((p) => p.slug === slug);
+  const project = projects.find((p) => p.slug === slug);
   if (!project || publishSettings[slug]?.live !== true) return undefined;
   return project;
 }

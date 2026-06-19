@@ -5,6 +5,7 @@ import TechBadge from '../components/TechBadge.astro';
 import type { Project } from '../types/project';
 import { projectTypeLabels } from '../types/project';
 import { getPublishSettings } from '../data/project-utils';
+import { withBase } from '../utils/path';
 
 interface Props {
   project: Project;
@@ -124,7 +125,7 @@ const extraLinks = settings.showExtraLinks === true ? (project.extraLinks ?? [])
     </div>
 
     <p class="mt-12 border-t border-gray-200 pt-8">
-      <a href="/projects" class="text-sm font-medium text-accent hover:underline">
+      <a href={withBase('/projects')} class="text-sm font-medium text-accent hover:underline">
         &larr; Back to all projects
       </a>
     </p>

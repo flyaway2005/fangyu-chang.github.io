@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import SkillExplorer from '../components/SkillExplorer.astro';
 import { site } from '../data/site';
+import { withBase } from '../utils/path';
 import { getPublishedProjects, isFeaturedOnAbout } from '../data/project-utils';
 
 const publishedProjects = getPublishedProjects();
@@ -42,7 +43,7 @@ const pageDescription = `${site.tagline} ${site.openTo}`;
       {homeProjects.map((project) => <ProjectCard project={project} />)}
     </div>
     <p class="mt-8">
-      <a href="/projects" class="text-sm font-medium text-accent hover:underline">
+      <a href={withBase('/projects')} class="text-sm font-medium text-accent hover:underline">
         View all projects &rarr;
       </a>
     </p>

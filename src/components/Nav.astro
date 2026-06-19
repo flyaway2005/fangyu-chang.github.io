@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import { withBase } from '../utils/path';
 
 const navItems = [
   { href: '/', label: 'About' },
@@ -7,7 +8,8 @@ const navItems = [
   { href: '/contact', label: 'Contact' },
 ];
 
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
+const currentPath = Astro.url.pathname.replace(new RegExp(`^${basePrefix}`), '') || '/';
 ---
 
 <header class="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
@@ -15,7 +17,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     class="mx-auto flex max-w-[760px] items-center justify-between px-6 py-4"
     aria-label="Main navigation"
   >
-    <a href="/" class="text-sm font-semibold text-gray-900 hover:text-accent">
+    <a href={withBase('/')} class="text-sm font-semibold text-gray-900 hover:text-accent">
       {site.name}
     </a>
     <ul class="flex items-center gap-1 text-sm text-gray-600">
@@ -30,7 +32,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
               {i > 0 && <li aria-hidden="true" class="px-1 text-gray-400">·</li>}
               <li>
                 <a
-                  href={item.href}
+                  href={withBase(item.href)}
                   class:list={[
                     'hover:text-accent',
                     isActive && 'font-medium text-accent',

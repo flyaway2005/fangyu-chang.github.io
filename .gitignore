@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local draft projects (not published)
+src/data/projects.draft.ts
