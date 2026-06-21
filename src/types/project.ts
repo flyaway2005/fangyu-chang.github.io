@@ -22,7 +22,6 @@ export interface Project {
   methodology: string;
   keyResults: string;
   takeaway: string;
-  slidesEmbedId?: string;
   reportEmbedId?: string;
   extraLinks?: { title: string; url: string }[];
 }

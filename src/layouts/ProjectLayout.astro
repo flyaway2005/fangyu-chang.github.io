@@ -22,7 +22,6 @@ const sections = [
   { id: 'takeaway', title: 'Takeaway', content: project.takeaway },
 ] as const;
 
-const showSlides = settings.showSlides === true && Boolean(project.slidesEmbedId);
 const showReport = settings.showReport === true && Boolean(project.reportEmbedId);
 const extraLinks = settings.showExtraLinks === true ? (project.extraLinks ?? []) : [];
 ---
@@ -83,25 +82,6 @@ const extraLinks = settings.showExtraLinks === true ? (project.extraLinks ?? [])
             </a>
           </section>
         ))
-      }
-
-      {
-        showSlides && (
-          <section aria-labelledby="slides-heading">
-            <h2 id="slides-heading" class="mb-3 text-lg font-semibold text-gray-900">
-              Slides
-            </h2>
-            <div class="aspect-video overflow-hidden rounded-lg border border-gray-200">
-              <iframe
-                src={project.slidesEmbedId}
-                title={`${project.title} slides`}
-                class="h-full w-full"
-                loading="lazy"
-                allowfullscreen
-              />
-            </div>
-          </section>
-        )
       }
 
       {

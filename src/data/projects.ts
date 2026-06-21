@@ -23,7 +23,6 @@ export const projects: Project[] = [
       "Projected 2x recruiter productivity, halved time-to-placement, and doubled pipeline conversion rate from 20% to 40%.",
     takeaway:
       "Demonstrates the ability to deconstruct a human workflow into its component decisions, then redesign it as a human-AI collaboration: identifying which steps an agent can fully own, which still need human judgment, and how the handoffs between them should work. That's task reallocation and workflow redesign, not just model building, and it's the core skill behind any AI enablement initiative, regardless of domain.",
-    slidesEmbedId: "",
     reportEmbedId: "",
   },
   {
@@ -50,7 +49,6 @@ export const projects: Project[] = [
       "LettuceDetect peak F1 of 0.696 at a 0.95 confidence threshold. DeepSeek-r1 showed higher correctness than Qwen2.5 but took 16x longer to respond (52.81s vs. 3.27s average), quantifying a concrete accuracy-latency trade-off for production RAG model selection.",
     takeaway:
       "Demonstrates the ability to build evaluation infrastructure from scratch, not just consume existing benchmarks: constructing a labelled synthetic dataset, validating its quality, and using it to produce a data-grounded answer to a real deployment question. That same approach, building the right test data before trusting a model's output, applies to evaluating any LLM or AI system before it goes into production, regardless of domain.",
-    slidesEmbedId: "",
     reportEmbedId: "https://drive.google.com/file/d/1hJ-JaPlACeDPkX6FQlIcN_X3nOD108iq/preview",
   },
   {
@@ -82,7 +80,6 @@ export const projects: Project[] = [
       "Standard LoRA fine-tuning achieved 71.4% test accuracy in 12 minutes of training, outperforming every class-imbalance correction attempted: weighted loss failed outright, over-sampling dropped accuracy to 67.9% with clear overfitting, and a DistilBERT alternative collapsed to 57.1%, predicting a single class for all test samples.",
     takeaway:
       "Demonstrates real experimental design on a real-world problem and a real, messy dataset, not a clean benchmark: structuring each experiment as a controlled comparison against the previous baseline, isolating exactly one variable at a time (prompt structure, then loss weighting, then sampling strategy, then model architecture), and using each result to diagnose the actual failure mechanism (gradient instability, overfitting, majority-class collapse) rather than guessing at fixes. That ability, designing the right comparison to isolate why something failed and what to try next, is what separates systematic model development from trial and error. The course instructor's feedback described it as among the best individual assignments seen in the course, citing sound model choices, training setup, and dataset effort.",
-    slidesEmbedId: "",
     reportEmbedId: "https://drive.google.com/file/d/1Or8oT8idHzDI0V_uaskk5sPcgbzoCBoi/preview",
     extraLinks: [
       {
@@ -97,7 +94,7 @@ export const projects: Project[] = [
     category: "llm",
     projectType: "group",
     context: "CS614 Group Project",
-    summary: "Designed and built a custom Neo4j knowledge graph over Singapore Family Court judgments to test whether structured legal relationships could improve on standard RAG for multi-hop legal reasoning.",
+    summary: "A progression of retrieval systems, from vector-based RAG through a custom knowledge graph to an agentic reasoning layer, built and evaluated to test whether structured legal relationships could improve on standard RAG for multi-hop legal reasoning over Singapore Family Court judgments.",
     techStack: ["Neo4j", "Cypher", "Claude Sonnet 4.5", "Vector embeddings"],
     skills: ["Neo4j", "RAG"],
     featured: false,
@@ -111,8 +108,32 @@ export const projects: Project[] = [
       "The graph achieved full coverage with no isolated nodes across 1,798 nodes and 3,229 relationships drawn from 94 judgments. Queried directly, the self-curated graph scored 0.186 on Factual Retrieval, well below the team's vector-based RAG baseline (0.63 to 0.69 depending on chunking strategy), with 0.045 on Analytical Reasoning and 0.000 on Legal Insight and Synthesis. This clarified that a well-constructed ontology and graph alone don't guarantee strong retrieval performance against a single static query, a limitation that motivated the team's later move to an agentic query approach.",
     takeaway:
       "This project clarified when a knowledge graph is worth the investment over standard RAG, and when it isn't. Ontology design is the hard part: it takes real domain expertise to decide what counts as an entity versus a relationship, and getting the schema wrong limits everything built on top of it later, no matter how clean the graph itself is. That's a lesson I now apply early on any project involving structured data, invest in getting the representation right before optimizing retrieval on top of it.",
-    slidesEmbedId: "",
     reportEmbedId: "https://drive.google.com/file/d/1ywFb-31ZjJuY-nTzHqxa6wSDBOY8OUwQ/preview",
+  },
+  {
+    slug: "salary-benchmarking",
+    title: "Closing the Gap: A Data-Driven Solution for Salary Mismatch in Hiring",
+    category: "other",
+    projectType: "group",
+    context: "ISSS621 Data Science for Business",
+    summary: "A salary prediction model benchmarked against the broader labor market, paired with negotiation metrics and a feedback loop, built to reduce offer rejections caused by salary mismatch in Data Science hiring.",
+    techStack: ["Machine Learning", "Metrics Design"],
+    skills: [
+      "NGBoost",
+      "Machine Learning"
+    ],
+    featured: true,
+    businessContext:
+      "HR teams negotiating Data Science salaries often had no data-backed reference point for what a role should pay, leaving offers anchored to outdated pay structures or gut feel, a common cause of rejected offers and wasted recruiting effort. A team of five addressed the first half of that gap by training a machine learning model on roughly 45,000 US job postings, scraped along with their listed salary ranges, location, industry, years of experience, and required skills, so HR could query a position's market-aligned salary just by entering its location, skills, and experience level. On top of that prediction, the system adds a set of metrics that guide HR through the negotiation itself, translating the gap between a candidate's ask and the market estimate into a clear accept, negotiate, or reset decision. The system was also designed to keep working after launch rather than go stale: a data feedback loop captures each negotiation's outcome and feeds it back into the training set, tracks the model's prediction accuracy over time, and flags when performance has drifted enough to warrant retraining, so the salary estimates stay current as new market data comes in.",
+    myContribution:
+      "I led the business problem framing and designed the full data science approach used to address it: translating a vague HR pain point, too many offers falling through, into a diagnosis of three root causes (offers anchored to outdated pay data, no quantitative framework for negotiation, candidates anchoring to unrealistic expectations), then mapping each cause to a specific technique, which set the direction for the salary prediction model the team built. On top of that model, I designed the three layers that turn a prediction into a usable system: the Deviation Rate and Overlap Rate metrics that convert a candidate's expectation into a negotiation stance, the threshold optimization process that recalibrates those negotiation cutoffs against real outcomes over time, and the data feedback loop that governs when and how the underlying model itself gets retrained. The salary prediction model (NGBoost, BERT embeddings, Optuna tuning) was built by teammates; the business framing and everything connecting that model back to an actual, ongoing negotiation decision was mine.",
+    methodology:
+      "Deviation Rate measures how far a candidate's requested salary sits from the model's prediction, as a percentage, which I mapped to three negotiation postures: accept immediately under 15% deviation, negotiate with confidence between 15 and 25%, and reset expectations above 25%. Overlap Rate compares the candidate's requested range against the model's predicted range (point estimate plus or minus one standard deviation) to quantify how much room actually exists for a deal, using the ratio of the overlapping range to the combined union of both ranges. I designed those initial thresholds to be revisited, not fixed: the threshold optimization flow tracks actual negotiation success rates against target rates for each deviation band, then adjusts the band boundaries depending on whether a category is over- or under-performing, on a continuous monthly cycle. The data feedback loop runs in parallel at the model level: HR-collected offer outcomes and candidate survey data would feed back into the training set, model accuracy would be tracked via MAPE after each update, and retraining would trigger if MAPE exceeds 15%, if a systematic bias appears for a job category, or if new data reaches a meaningful share of the total dataset. All of this was specified as formulas and decision rules rather than built out in code.",
+    keyResults:
+      "The result is a layered system rather than a single model: a prediction layer that returns a market-aligned salary estimate with a confidence range, a decision layer (Deviation Rate and Overlap Rate) that turns that estimate plus a candidate's ask into a clear accept, negotiate, or reset recommendation, a calibration layer (the threshold optimization flow) that adjusts those decision boundaries over time based on which negotiation outcomes actually succeed, and a maintenance layer (the data feedback loop) that defines when the underlying model itself needs retraining. Only the prediction layer was carried through to a working implementation within the project's scope; the three layers built on top of it were fully specified designs, covering both how HR should use the model's output and how the system should keep itself current.",
+      takeaway:
+      "This project taught me how to design metrics that actually fit the business decision they're meant to support, not just ones that are statistically sound. Deviation Rate and Overlap Rate only matter because they map directly onto how a negotiation actually plays out: accept, push back, or walk away. Building the threshold optimization process and the data feedback loop on top of that reinforced a bigger point: a good metrics system isn't static. Tying the decision thresholds to real outcomes, and the model itself to fresh data, lets the whole system keep iterating over time, whether that means correcting for market drift or adjusting as the business's goals shift.",
+    reportEmbedId: "https://drive.google.com/file/d/1VgLEjThPKXFR7CLQ_jqVVC7iwHY8PkSx/preview",
   },
   {
     slug: "inventory-optimization",
@@ -120,7 +141,7 @@ export const projects: Project[] = [
     category: "other",
     projectType: "group",
     context: "IS602 Spreadsheet Modeling for Decision Making",
-    summary: "A Monte Carlo simulation quantifying how reducing demand variability improves retail inventory fill rates and cuts stockout risk.",
+    summary: "A three-stage spreadsheet model for retail inventory planning: trade-off and sensitivity analysis to set cost-optimal service levels, a demand forecasting and order optimization model, and a Monte Carlo simulation stress-testing the resulting policy against real-world demand uncertainty.",
     techStack: ["Excel", "Monte Carlo simulation"],
     skills: ["Excel (Monte Carlo Simulation)"],
     featured: false,
@@ -134,7 +155,6 @@ export const projects: Project[] = [
       "Across the five stores, tightening demand variation from 30% to 10% raised average fill rate from 88.4% to 91.0% and cut average stockout units by 31.6%. The improvement wasn't uniform: one store reached a 100% fill rate at the lower variation level, while two others remained the weakest performers under both scenarios, around 80 to 85%, pointing to those stores as the highest stockout risk heading into the December peak regardless of how much forecast accuracy improved.",
     takeaway:
       "Running the same policy through a range of demand variation levels separated two questions that are easy to conflate: whether the ordering policy itself is good, and how exposed that policy is to forecast error. That distinction matters in any planning context built on a single point forecast. The same approach, vary the input uncertainty and watch how the outcome distribution shifts, applies just as well to staffing models, capacity planning, or budget forecasting as it does to inventory.",
-    slidesEmbedId: "",
     reportEmbedId:
       "https://docs.google.com/document/d/19XOgY9bZA5zdmYhtncrJa5DUp9j41N9z/preview",
   },
