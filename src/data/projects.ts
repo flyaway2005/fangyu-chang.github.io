@@ -11,7 +11,7 @@ export const projects: Project[] = [
     context: "CS 615 Agentic AI — SMU MITB",
     summary: "A 9-agent system redesigning end-to-end headhunting as human-AI collaboration, projecting 2x recruiter productivity and doubled pipeline conversion.",
     techStack: ["CrewAI", "FastAPI", "Next.js", "TypeScript", "OpenAI GPT-4o-mini", "Whisper", "SQLite", "JWT Auth"],
-    skills: ["Agentic AI", "CrewAI", "OpenAI API"],
+    skills: ["Agentic AI", "CrewAI", "OpenAI API", "OpenAI API", "GPT-4o"],
     featured: true,
     businessContext:
       "Recruiters managing a high-volume pipeline juggle a fragmented workflow: manually parsing resumes and job descriptions, drafting outreach one candidate at a time, running screening interviews without structured guidance, and comparing finalists from memory rather than evidence. Much of this is repetitive enough to automate, freeing recruiters to spend their time and judgment on higher-value conversations instead. Agentic AI Recruiter is an internal platform for recruiters and hiring teams that turns this into a structured, end-to-end system. Specialised agents each own one stage of the pipeline.",
@@ -58,7 +58,7 @@ export const projects: Project[] = [
     title: "Resume Classification Using Supervised Fine-Tuning",
     category: "llm",
     projectType: "personal",
-    context: "CS 614 Gen AI with LLMs — SMU MITB",
+    context: "CS 614 Gen AI with Large Language Models — SMU MITB",
     summary: "Fine-tuned TinyLlama-1.1B to auto-classify resumes into 5 technical categories, achieving 71.4% accuracy in 12 minutes of training.",
     techStack: ["TinyLlama-1.1B", "LoRA", "PEFT", "Hugging Face", "Pytorch", "DistilBERT", "Transformers", "Prompt engineering"],
     skills: [
@@ -92,27 +92,51 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "kg-rag-legal",
+    title: "Knowledge Graphs and Retrieval-Augmented Generation for Family Courts Appeals Analysis",
+    category: "llm",
+    projectType: "group",
+    context: "CS614 Group Project",
+    summary: "Designed and built a custom Neo4j knowledge graph over Singapore Family Court judgments to test whether structured legal relationships could improve on standard RAG for multi-hop legal reasoning.",
+    techStack: ["Neo4j", "Cypher", "Claude Sonnet 4.5", "Vector embeddings"],
+    skills: ["Neo4j", "RAG"],
+    featured: false,
+    businessContext:
+      "Singapore's Family Justice Courts handle complex cases such as divorce, custody, and division of matrimonial assets, producing judgments that are lengthy and dense with legal reasoning, footnotes, citations, and cross-references. Legal professionals must manually comb through these documents to locate facts that are often scattered and inconsistently phrased, then synthesize that information across multiple cases to build an argument, a process that is slow and error-prone. Retrieval-augmented generation (RAG) helps with the first part of that problem: it searches efficiently across large document collections and surfaces relevant passages. But legal reasoning depends on connecting principles and precedent across cases, not just matching keywords, and domain-specific language and cross-references can mislead semantic search in ways that make RAG weak at exactly the multi-step, synthesis-style questions lawyers actually need answered. Knowledge graphs were explored as a way to close that gap, since representing cases, arguments, and statutes as explicit, connected entities promised more accurate and explainable answers than retrieval over isolated text chunks. A team of five built and evaluated a progression of retrieval systems, from baseline RAG through a custom knowledge graph to an agentic and a LlamaIndex-based KG-RAG pipeline, across 94 Singapore Family Court judgments from 2024 to 2025.",
+    myContribution:
+      "I owned the self-curated knowledge graph component: defining the ontology, building and populating the Neo4j graph, and building the query pipeline that let it answer natural language questions. The graph covers five entity types (cases, persons, arguments, statutes, legal principles) and nine relationship types, populated from 94 judgments into 1,798 nodes and 3,229 relationships with no isolated nodes. I backfilled vector embeddings onto case, argument, and statute nodes to support hybrid retrieval that combines graph traversal with semantic similarity, and built a two-stage query pipeline that generates Cypher from natural language questions and extracts answers from the results.",
+    methodology:
+      "Defining the ontology meant reconciling how legal professionals actually reason, in terms of principles, precedent, and argument structure, with what could be reliably extracted from dense, cross-referenced judgment text. After settling on the five node types and nine relationship types, I extracted entities across all 94 judgments and validated the graph for completeness, resolving cases where the same person, statute, or principle was referenced under different phrasing. I then backfilled vector embeddings in batches onto case, argument, and statute nodes using their summary, outcome, and reasoning fields. The query layer uses a schema-aware prompt, documenting node and relationship types plus valid field values, to translate questions into Cypher, followed by a second prompt that extracts the final answer from the query results.",
+    keyResults:
+      "The graph achieved full coverage with no isolated nodes across 1,798 nodes and 3,229 relationships drawn from 94 judgments. Queried directly, the self-curated graph scored 0.186 on Factual Retrieval, well below the team's vector-based RAG baseline (0.63 to 0.69 depending on chunking strategy), with 0.045 on Analytical Reasoning and 0.000 on Legal Insight and Synthesis. This clarified that a well-constructed ontology and graph alone don't guarantee strong retrieval performance against a single static query, a limitation that motivated the team's later move to an agentic query approach.",
+    takeaway:
+      "This project clarified when a knowledge graph is worth the investment over standard RAG, and when it isn't. Ontology design is the hard part: it takes real domain expertise to decide what counts as an entity versus a relationship, and getting the schema wrong limits everything built on top of it later, no matter how clean the graph itself is. That's a lesson I now apply early on any project involving structured data, invest in getting the representation right before optimizing retrieval on top of it.",
+    slidesEmbedId: "",
+    reportEmbedId: "https://drive.google.com/file/d/1ywFb-31ZjJuY-nTzHqxa6wSDBOY8OUwQ/preview",
+  },
+  {
     slug: "inventory-optimization",
     title: "Intelligent Inventory Optimization System",
     category: "other",
     projectType: "group",
-    context: "IS 602 Spreadsheet Modeling — SMU MITB",
+    context: "IS602 Spreadsheet Modeling for Decision Making",
     summary: "A Monte Carlo simulation quantifying how reducing demand variability improves retail inventory fill rates and cuts stockout risk.",
-    techStack: ["Excel", "Monte Carlo simulation", "Trade-off Analysis", "Sentivity Analysis", "Solver"],
-    skills: ["Excel (Solver, Monte Carlo)"],
+    techStack: ["Excel", "Monte Carlo simulation"],
+    skills: ["Excel (Monte Carlo Simulation)"],
     featured: false,
     businessContext:
-      "Retail inventory planning at peak season requires balancing service level and holding cost under demand uncertainty, a classic operations research problem. Within a broader three-stage modelling pipeline (demand forecasting, cost optimisation, and risk simulation), Monte Carlo simulation was the component used to quantify how demand uncertainty itself affects service outcomes.",
+      "A five-store, 20-SKU retail company was approaching Q4 2025, the seasonal peak when demand is both higher and harder to predict. Effective inventory management meant balancing two competing risks: overstocking, which raises holding costs, against understocking, which causes stockouts, lost sales, and costly expedited orders. A team of five used spreadsheet modeling to address this in three stages: analyzing historical trade-offs among the cost drivers behind replenishment decisions, building an optimization model to set order quantities under both standard and promotional demand scenarios, and stress-testing the resulting policy against real-world demand uncertainty through Monte Carlo simulation.",
     myContribution:
-      "Built the Monte Carlo simulation component: modelled stockout risk and fill rate outcomes under varying demand variability assumptions, running repeated simulations to quantify how tightening forecast uncertainty would change service-level performance.",
+      "My role was the third stage: stress-testing the team's replenishment policy through Monte Carlo simulation. I modeled demand as a normal distribution centered on the forecast for each SKU and store, then ran 100 simulation iterations per scenario across five demand variation levels (10% to 30%) to see how forecast uncertainty itself would affect fill rate and stockout risk, independent of the underlying ordering policy.",
     methodology:
-      "Monte Carlo simulation in Excel, varying the demand variability input parameter and measuring the resulting distribution of fill rates and stockout units across simulation runs.",
+      "Each simulation iteration drew a random demand value from a normal distribution bounded within the tested variation range, then propagated that demand through the existing inventory position to calculate ending inventory, stockout units, and fill rate at the SKU level. I aggregated those SKU-level results up to the store level across all 100 iterations per scenario, averaging fill rate and stockout units to get a stable read on performance under each variation level. Running the same ordering policy through five variation scenarios, from 30% down to 10%, isolated the effect of demand uncertainty itself, holding the replenishment logic constant.",
     keyResults:
-      "Tightening demand variation from 30% to 10% improved average fill rate from 88.4% to 91.0% and reduced stockout units by 31.6%, quantifying the direct value of better demand forecasting on service-level outcomes.",
+      "Across the five stores, tightening demand variation from 30% to 10% raised average fill rate from 88.4% to 91.0% and cut average stockout units by 31.6%. The improvement wasn't uniform: one store reached a 100% fill rate at the lower variation level, while two others remained the weakest performers under both scenarios, around 80 to 85%, pointing to those stores as the highest stockout risk heading into the December peak regardless of how much forecast accuracy improved.",
     takeaway:
-      "Demonstrates quantitative risk modelling using accessible tools (Excel), translating an abstract input like forecast uncertainty into concrete, decision-relevant outcomes like fill rate and stockout risk. That same simulation approach applies to any planning problem under uncertainty, inventory, staffing, or capacity, regardless of industry.",
+      "Running the same policy through a range of demand variation levels separated two questions that are easy to conflate: whether the ordering policy itself is good, and how exposed that policy is to forecast error. That distinction matters in any planning context built on a single point forecast. The same approach, vary the input uncertainty and watch how the outcome distribution shifts, applies just as well to staffing models, capacity planning, or budget forecasting as it does to inventory.",
     slidesEmbedId: "",
     reportEmbedId:
       "https://docs.google.com/document/d/19XOgY9bZA5zdmYhtncrJa5DUp9j41N9z/preview",
   },
+
 ];

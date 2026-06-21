@@ -34,11 +34,18 @@ export const publishSettings: Record<string, ProjectPublishSettings> = {
   'resume-classification': {
     live: true,
     featured: false,
-    showReport: false,
+    showReport: true,
     showSlides: false,
     showExtraLinks: true,
   },
   'inventory-optimization': {
+    live: true,
+    featured: false,
+    showReport: true,
+    showSlides: false,
+    showExtraLinks: false,
+  },
+  'kg-rag-legal': {
     live: true,
     featured: false,
     showReport: true,

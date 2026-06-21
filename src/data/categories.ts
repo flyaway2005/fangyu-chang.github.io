@@ -9,7 +9,7 @@ export const categoryLabels: Record<ProjectCategory, string> = {
 
 export const categoryColors: Record<ProjectCategory, string> = {
   llm: '#7c3aed',
-  'agentic-ai': '#6c63ff',
+  'agentic-ai': '#4f46e5',
   'data-analytics': '#0d9488',
   other: '#d97706',
 };
