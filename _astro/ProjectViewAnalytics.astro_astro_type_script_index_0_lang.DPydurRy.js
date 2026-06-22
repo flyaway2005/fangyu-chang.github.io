@@ -1,0 +1,1 @@
+import{b as c}from"./analytics.DfqVCeLY.js";const t=document.querySelector("[data-analytics-project-slug]");if(t instanceof HTMLElement){const e=t.dataset.analyticsProjectSlug,a=t.dataset.analyticsProjectTitle;e&&a&&c(e,a)}
