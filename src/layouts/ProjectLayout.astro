@@ -5,7 +5,9 @@ import TechBadge from '../components/TechBadge.astro';
 import type { Project } from '../types/project';
 import { projectTypeLabels } from '../types/project';
 import { getPublishSettings } from '../data/project-utils';
+import { sortBySkillOrder } from '../data/skills';
 import { withBase } from '../utils/path';
+import { driveImageUrl } from '../utils/drive';
 
 interface Props {
   project: Project;
@@ -22,8 +24,15 @@ const sections = [
   { id: 'takeaway', title: 'Takeaway', content: project.takeaway },
 ] as const;
 
+const showSlides = settings.showSlides === true && Boolean(project.slidesEmbedId);
 const showReport = settings.showReport === true && Boolean(project.reportEmbedId);
+const showPoster =
+  settings.showPoster === true &&
+  Boolean(project.posterEmbedId) &&
+  Boolean(driveImageUrl(project.posterEmbedId));
+const posterImageUrl = project.posterEmbedId ? driveImageUrl(project.posterEmbedId) : undefined;
 const extraLinks = settings.showExtraLinks === true ? (project.extraLinks ?? []) : [];
+const techStack = sortBySkillOrder(project.techStack);
 ---
 
 <BaseLayout
@@ -44,9 +53,9 @@ const extraLinks = settings.showExtraLinks === true ? (project.extraLinks ?? [])
       </p>
       <p class="text-sm text-gray-500">{project.context}</p>
       {
-        project.techStack.length > 0 && (
+        techStack.length > 0 && (
           <div class="mt-4 flex flex-wrap gap-2">
-            {project.techStack.map((tech) => (
+            {techStack.map((tech) => (
               <TechBadge label={tech} />
             ))}
           </div>
@@ -82,6 +91,44 @@ const extraLinks = settings.showExtraLinks === true ? (project.extraLinks ?? [])
             </a>
           </section>
         ))
+      }
+
+      {
+        showPoster && posterImageUrl && (
+          <section aria-labelledby="poster-heading">
+            <h2 id="poster-heading" class="mb-3 text-lg font-semibold text-gray-900">
+              Poster
+            </h2>
+            <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+              <img
+                src={posterImageUrl}
+                alt={`${project.title} poster`}
+                class="block w-full object-contain"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+              />
+            </div>
+          </section>
+        )
+      }
+
+      {
+        showSlides && (
+          <section aria-labelledby="slides-heading">
+            <h2 id="slides-heading" class="mb-3 text-lg font-semibold text-gray-900">
+              Slides
+            </h2>
+            <div class="aspect-[4/3] overflow-hidden rounded-lg border border-gray-200">
+              <iframe
+                src={project.slidesEmbedId}
+                title={`${project.title} slides`}
+                class="h-full w-full"
+                loading="lazy"
+                allowfullscreen
+              />
+            </div>
+          </section>
+        )
       }
 
       {

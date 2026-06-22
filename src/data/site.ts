@@ -15,7 +15,7 @@ export const site = {
       {
         label: "Analytics",
         items: [
-          "Python (Pandas, Scikit-learn, PyTorch)",
+          "Python (Pandas, Scikit-learn, PyTorch, Numpy)",
           "SQL",
           "R (Shiny, ggplot2)",
           "Tableau",
@@ -40,6 +40,7 @@ export const site = {
           "GPT-4o",
           "TinyLlama-1.1B",
           "Llama 3.3 70B",
+          "Claude Sonnet 4.5",
           "Qwen2.5",
           "DistilBERT",
           "BERTopic",
@@ -49,22 +50,26 @@ export const site = {
       {
         label: "Statistics & Methods",
         items: [
+          "Exploratory Data Analysis",
           "Hypothesis Testing",
           "A/B Testing",
           "Regression Modelling",
           "Classification",
           "Clustering",
-          "Time Series (SARIMA)",
+          "Time Series Forecasting",
           "ANOVA",
           "NLP",
-          "Topic Modelling",
+          "Topic Modeling",
           "Sentiment Analysis",
           "Network Analysis",
+          "Data Visualization",
+          "Data Preprocessing",
+          "ETL",
         ],
       },
       {
         label: "Tools",
-        items: ["Neo4j"],
+        items: ["Neo4j", "GitHub"],
       },
     ],
   };

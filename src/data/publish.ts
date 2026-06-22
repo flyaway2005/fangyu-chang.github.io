@@ -4,12 +4,16 @@
  * live:         Show this project on /projects and generate its detail page
  * featured:     Show on the About page featured section (max 3 recommended)
  * showReport:   Embed the PDF from reportEmbedId
+ * showSlides:   Embed the PDF slides from slidesEmbedId
+ * showPoster:   Embed the poster image from posterEmbedId
  * showExtraLinks: Show extraLinks (e.g. Notion comparison pages)
  */
 export type ProjectPublishSettings = {
   live: boolean;
   featured?: boolean;
   showReport?: boolean;
+  showSlides?: boolean;
+  showPoster?: boolean;
   showExtraLinks?: boolean;
 };
 
@@ -29,7 +33,7 @@ export const publishSettings: Record<string, ProjectPublishSettings> = {
   },
   'resume-classification': {
     live: true,
-    featured: false,
+    featured: true,
     showReport: true,
     showExtraLinks: true,
   },
@@ -46,6 +50,38 @@ export const publishSettings: Record<string, ProjectPublishSettings> = {
     showExtraLinks: false,
   },
   'salary-benchmarking': {
+    live: true,
+    featured: false,
+    showReport: true,
+    showExtraLinks: false,
+  },
+  'uganda-finscope': {
+    live: true,
+    featured: true,
+    showReport: true,
+    showPoster: true,
+    showExtraLinks: false,
+  },
+  'reddit-sna': {
+    live: true,
+    featured: false,
+    showReport: true,
+    showExtraLinks: false,
+  },
+  'singapore-labour-market': {
+    live: true,
+    featured: false,
+    showSlides: true,
+    showReport: true,
+    showExtraLinks: false,
+  },
+  'employee-insights': {
+    live: true,
+    featured: false,
+    showReport: true,
+    showExtraLinks: false,
+  },
+  'hotel-reviews': {
     live: true,
     featured: false,
     showReport: true,

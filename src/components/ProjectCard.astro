@@ -1,6 +1,8 @@
 ---
 import type { Project } from '../types/project';
 import CategoryTag from './CategoryTag.astro';
+import TechBadge from './TechBadge.astro';
+import { sortBySkillOrder } from '../data/skills';
 import { withBase } from '../utils/path';
 
 interface Props {
@@ -9,6 +11,7 @@ interface Props {
 
 const { project } = Astro.props;
 const projectHref = withBase(`/projects/${project.slug}`);
+const techStack = sortBySkillOrder(project.techStack);
 ---
 
 <article class="rounded-lg border border-gray-200 p-5">
@@ -21,6 +24,15 @@ const projectHref = withBase(`/projects/${project.slug}`);
     </a>
   </h2>
   <p class="mb-4 text-sm leading-relaxed text-gray-600">{project.summary}</p>
+  {
+    techStack.length > 0 && (
+      <div class="mb-4 flex flex-wrap gap-2">
+        {techStack.map((tech) => (
+          <TechBadge label={tech} />
+        ))}
+      </div>
+    )
+  }
   <a href={projectHref} class="text-sm font-medium text-accent hover:underline">
     View project
   </a>

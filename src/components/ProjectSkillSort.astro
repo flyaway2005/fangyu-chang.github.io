@@ -1,0 +1,136 @@
+---
+import { skillGroups } from '../data/skills';
+---
+
+<section class="mb-8" aria-labelledby="project-skill-sort-heading">
+  <h2 id="project-skill-sort-heading" class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">
+    Sort by skills
+  </h2>
+  <p class="mb-4 text-sm text-gray-600">
+    Select one or more skills. Projects using more of your selected skills appear first.
+  </p>
+
+  <div class="space-y-5" id="project-skill-tags">
+    {
+      skillGroups.map((group) => (
+        <div>
+          <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+            {group.label}
+          </h3>
+          <div class="flex flex-wrap gap-2" role="group" aria-label={group.label}>
+            {
+              group.items.map((skill) => (
+                <button
+                  type="button"
+                  data-skill={skill}
+                  class="project-skill-tag rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700 hover:border-accent hover:text-accent"
+                >
+                  #{skill}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <button
+    type="button"
+    id="project-skill-clear"
+    class="mt-4 hidden text-sm font-medium text-accent hover:underline"
+  >
+    Clear selected skills
+  </button>
+</section>
+
+<script>
+  const grid = document.getElementById('project-grid');
+  const skillTags = document.querySelectorAll<HTMLButtonElement>('.project-skill-tag');
+  const clearButton = document.getElementById('project-skill-clear');
+
+  if (grid) {
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-project-category]'));
+
+    const activeClasses = ['border-accent', 'bg-accent', 'text-white'];
+    const inactiveClasses = [
+      'border-gray-300',
+      'bg-white',
+      'text-gray-700',
+      'hover:border-accent',
+      'hover:text-accent',
+    ];
+
+    const selectedSkills = new Set<string>();
+
+    function getMatchCount(card: HTMLElement): number {
+      const skills = card.dataset.projectSkills?.split('||') ?? [];
+      let count = 0;
+      for (const skill of selectedSkills) {
+        if (skills.includes(skill)) count += 1;
+      }
+      return count;
+    }
+
+    function updateClearButton() {
+      clearButton?.classList.toggle('hidden', selectedSkills.size === 0);
+    }
+
+    function applySort() {
+      const sorted = [...cards].sort((a, b) => {
+        const matchDiff = getMatchCount(b) - getMatchCount(a);
+        if (matchDiff !== 0) return matchDiff;
+        return Number(a.dataset.projectOrder) - Number(b.dataset.projectOrder);
+      });
+
+      for (const card of sorted) {
+        grid.appendChild(card);
+      }
+    }
+
+    function setTagActive(tag: HTMLButtonElement, active: boolean) {
+      if (active) {
+        tag.classList.remove(...inactiveClasses);
+        tag.classList.add(...activeClasses);
+      } else {
+        tag.classList.remove(...activeClasses);
+        tag.classList.add(...inactiveClasses);
+      }
+    }
+
+    function toggleSkill(skill: string, tag: HTMLButtonElement) {
+      if (selectedSkills.has(skill)) {
+        selectedSkills.delete(skill);
+        setTagActive(tag, false);
+      } else {
+        selectedSkills.add(skill);
+        setTagActive(tag, true);
+      }
+      updateClearButton();
+      applySort();
+    }
+
+    skillTags.forEach((tag) => {
+      tag.addEventListener('click', () => {
+        const skill = tag.dataset.skill;
+        if (!skill) return;
+        toggleSkill(skill, tag);
+      });
+    });
+
+    clearButton?.addEventListener('click', () => {
+      selectedSkills.clear();
+      skillTags.forEach((tag) => setTagActive(tag, false));
+      updateClearButton();
+      applySort();
+    });
+
+    const skillFromUrl = new URLSearchParams(window.location.search).get('skill');
+    if (skillFromUrl) {
+      const matchingTag = Array.from(skillTags).find((tag) => tag.dataset.skill === skillFromUrl);
+      if (matchingTag?.dataset.skill) {
+        toggleSkill(matchingTag.dataset.skill, matchingTag);
+      }
+    }
+  }
+</script>

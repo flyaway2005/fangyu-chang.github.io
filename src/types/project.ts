@@ -23,5 +23,7 @@ export interface Project {
   keyResults: string;
   takeaway: string;
   reportEmbedId?: string;
+  slidesEmbedId?: string;
+  posterEmbedId?: string;
   extraLinks?: { title: string; url: string }[];
 }
