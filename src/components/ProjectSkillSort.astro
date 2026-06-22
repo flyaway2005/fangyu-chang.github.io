@@ -45,7 +45,12 @@ import { skillGroups } from '../data/skills';
 </section>
 
 <script>
-  import { trackSkillClick } from '../utils/analytics';
+  function trackSkillClick(skillName: string, action: 'select' | 'deselect') {
+    window.gtag('event', 'skill_click', {
+      skill_name: skillName,
+      skill_action: action,
+    });
+  }
 
   const grid = document.getElementById('project-grid');
   const skillTags = document.querySelectorAll<HTMLButtonElement>('.project-skill-tag');

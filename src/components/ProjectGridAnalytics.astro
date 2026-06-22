@@ -1,23 +1,24 @@
-<script>
-  import { trackProjectClick } from '../utils/analytics';
-
-  const grid = document.getElementById('project-grid');
-
-  grid?.addEventListener('click', (event) => {
+<script is:inline>
+  document.getElementById('project-grid')?.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
     const link = target.closest('a');
-    if (!link || !grid.contains(link)) return;
+    const grid = document.getElementById('project-grid');
+    if (!link || !grid || !grid.contains(link)) return;
 
-    const card = link.closest<HTMLElement>('[data-project-slug]');
-    if (!card) return;
+    const card = link.closest('[data-project-slug]');
+    if (!(card instanceof HTMLElement)) return;
 
     const projectSlug = card.dataset.projectSlug;
     const projectTitle = card.dataset.projectTitle;
     if (!projectSlug || !projectTitle) return;
 
     const linkType = link.textContent?.trim().toLowerCase() === 'view project' ? 'cta' : 'title';
-    trackProjectClick(projectSlug, projectTitle, linkType);
+    window.gtag('event', 'project_click', {
+      project_slug: projectSlug,
+      project_title: projectTitle,
+      link_type: linkType,
+    });
   });
 </script>

@@ -7,22 +7,9 @@ interface Props {
 const { projectSlug, projectTitle } = Astro.props;
 ---
 
-<div
-  data-analytics-project-slug={projectSlug}
-  data-analytics-project-title={projectTitle}
-  hidden
-  aria-hidden="true"
-></div>
-
-<script>
-  import { trackProjectView } from '../utils/analytics';
-
-  const marker = document.querySelector('[data-analytics-project-slug]');
-  if (marker instanceof HTMLElement) {
-    const slug = marker.dataset.analyticsProjectSlug;
-    const title = marker.dataset.analyticsProjectTitle;
-    if (slug && title) {
-      trackProjectView(slug, title);
-    }
-  }
+<script is:inline define:vars={{ projectSlug, projectTitle }}>
+  window.gtag('event', 'project_view', {
+    project_slug: projectSlug,
+    project_title: projectTitle,
+  });
 </script>
