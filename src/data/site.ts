@@ -11,6 +11,8 @@ export const site = {
   smuEmail: "fy.chang.2024@mitb.smu.edu.sg",
   /** Optional Formspree endpoint (https://formspree.io/f/...) for in-browser form delivery. Leave empty to use mailto fallback. */
   contactFormEndpoint: "",
+  /** Google Analytics 4 measurement ID (e.g. G-XXXXXXXX). Leave empty to disable tracking. */
+  ga4MeasurementId: "G-MEF3RLBQLP",
   openTo:
     "I'm open to Data Scientist, Data Analyst, and AI/Analytics roles. My goal is to go deep in a domain, the way I once went deep in tech recruiting, and become the person who can translate its real business problems into data science solutions, not the other way around.",
   skills: [
