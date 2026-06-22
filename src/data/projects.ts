@@ -248,6 +248,29 @@ export const projects: Project[] = [
     reportEmbedId: "https://drive.google.com/file/d/1h6dCj4bUVnmkK6Vr8u8x_fevg2St1ZvU/preview",
   },
   {
+    slug: "inventory-optimization",
+    title: "Intelligent Inventory Optimization System",
+    category: "data-science",
+    projectType: "group",
+    context: "IS602 Spreadsheet Modeling for Decision Making",
+    summary: "A three-stage spreadsheet model for retail inventory planning: trade-off and sensitivity analysis to set cost-optimal service levels, a demand forecasting and order optimization model, and a Monte Carlo simulation stress-testing the resulting policy against real-world demand uncertainty.",
+    techStack: ["Excel", "Monte Carlo simulation"],
+    skills: ["Excel (Solver, Monte Carlo)"],
+    featured: false,
+    businessContext:
+      "A five-store, 20-SKU retail company was approaching Q4 2025, the seasonal peak when demand is both higher and harder to predict. Effective inventory management meant balancing two competing risks: overstocking, which raises holding costs, against understocking, which causes stockouts, lost sales, and costly expedited orders. A team of five used spreadsheet modeling to address this in three stages: analyzing historical trade-offs among the cost drivers behind replenishment decisions, building an optimization model to set order quantities under both standard and promotional demand scenarios, and stress-testing the resulting policy against real-world demand uncertainty through Monte Carlo simulation.",
+    myContribution:
+      "My role was the third stage: stress-testing the team's replenishment policy through Monte Carlo simulation. I modeled demand as a normal distribution centered on the forecast for each SKU and store, then ran 100 simulation iterations per scenario across five demand variation levels (10% to 30%) to see how forecast uncertainty itself would affect fill rate and stockout risk, independent of the underlying ordering policy.",
+    methodology:
+      "Each simulation iteration drew a random demand value from a normal distribution bounded within the tested variation range, then propagated that demand through the existing inventory position to calculate ending inventory, stockout units, and fill rate at the SKU level. I aggregated those SKU-level results up to the store level across all 100 iterations per scenario, averaging fill rate and stockout units to get a stable read on performance under each variation level. Running the same ordering policy through five variation scenarios, from 30% down to 10%, isolated the effect of demand uncertainty itself, holding the replenishment logic constant.",
+    keyResults:
+      "Across the five stores, tightening demand variation from 30% to 10% raised average fill rate from 88.4% to 91.0% and cut average stockout units by 31.6%. The improvement wasn't uniform: one store reached a 100% fill rate at the lower variation level, while two others remained the weakest performers under both scenarios, around 80 to 85%, pointing to those stores as the highest stockout risk heading into the December peak regardless of how much forecast accuracy improved.",
+    takeaway:
+      "Running the same policy through a range of demand variation levels separated two questions that are easy to conflate: whether the ordering policy itself is good, and how exposed that policy is to forecast error. That distinction matters in any planning context built on a single point forecast. The same approach, vary the input uncertainty and watch how the outcome distribution shifts, applies just as well to staffing models, capacity planning, or budget forecasting as it does to inventory.",
+    reportEmbedId:
+      "https://docs.google.com/document/d/19XOgY9bZA5zdmYhtncrJa5DUp9j41N9z/preview",
+  },
+  {
     slug: "hotel-reviews",
     title: "Uncovering Customer Experience Drivers in Hotel Reviews",
     category: "data-science",
@@ -283,29 +306,6 @@ export const projects: Project[] = [
       takeaway:
       "BERTopic generates richer clusters than LDA, but 56 topics at 60% coverage is harder to operationalize than 5 interpretable ones at full coverage. The more useful approach was combining both: BERTopic for segment-level storytelling, LDA for quantitative integration with sentiment scores. On the LLM pipeline, filtering and prompt design mattered more than model choice. The keyword filtering and sentiment threshold that determined which reviews the LLM saw shaped the output quality more than the model itself. Framing the prompt around severity-ranked problems with specific improvement actions, rather than open-ended summarization, was what made the recommendations actionable. Both decisions required more iteration than any of the modeling steps.",
     reportEmbedId: "https://drive.google.com/file/d/1NFHOOpdUJHNiwGzWkP-vHG743sIK5xtX/preview",
-  },
-  {
-    slug: "inventory-optimization",
-    title: "Intelligent Inventory Optimization System",
-    category: "data-science",
-    projectType: "group",
-    context: "IS602 Spreadsheet Modeling for Decision Making",
-    summary: "A three-stage spreadsheet model for retail inventory planning: trade-off and sensitivity analysis to set cost-optimal service levels, a demand forecasting and order optimization model, and a Monte Carlo simulation stress-testing the resulting policy against real-world demand uncertainty.",
-    techStack: ["Excel", "Monte Carlo simulation"],
-    skills: ["Excel (Solver, Monte Carlo)"],
-    featured: false,
-    businessContext:
-      "A five-store, 20-SKU retail company was approaching Q4 2025, the seasonal peak when demand is both higher and harder to predict. Effective inventory management meant balancing two competing risks: overstocking, which raises holding costs, against understocking, which causes stockouts, lost sales, and costly expedited orders. A team of five used spreadsheet modeling to address this in three stages: analyzing historical trade-offs among the cost drivers behind replenishment decisions, building an optimization model to set order quantities under both standard and promotional demand scenarios, and stress-testing the resulting policy against real-world demand uncertainty through Monte Carlo simulation.",
-    myContribution:
-      "My role was the third stage: stress-testing the team's replenishment policy through Monte Carlo simulation. I modeled demand as a normal distribution centered on the forecast for each SKU and store, then ran 100 simulation iterations per scenario across five demand variation levels (10% to 30%) to see how forecast uncertainty itself would affect fill rate and stockout risk, independent of the underlying ordering policy.",
-    methodology:
-      "Each simulation iteration drew a random demand value from a normal distribution bounded within the tested variation range, then propagated that demand through the existing inventory position to calculate ending inventory, stockout units, and fill rate at the SKU level. I aggregated those SKU-level results up to the store level across all 100 iterations per scenario, averaging fill rate and stockout units to get a stable read on performance under each variation level. Running the same ordering policy through five variation scenarios, from 30% down to 10%, isolated the effect of demand uncertainty itself, holding the replenishment logic constant.",
-    keyResults:
-      "Across the five stores, tightening demand variation from 30% to 10% raised average fill rate from 88.4% to 91.0% and cut average stockout units by 31.6%. The improvement wasn't uniform: one store reached a 100% fill rate at the lower variation level, while two others remained the weakest performers under both scenarios, around 80 to 85%, pointing to those stores as the highest stockout risk heading into the December peak regardless of how much forecast accuracy improved.",
-    takeaway:
-      "Running the same policy through a range of demand variation levels separated two questions that are easy to conflate: whether the ordering policy itself is good, and how exposed that policy is to forecast error. That distinction matters in any planning context built on a single point forecast. The same approach, vary the input uncertainty and watch how the outcome distribution shifts, applies just as well to staffing models, capacity planning, or budget forecasting as it does to inventory.",
-    reportEmbedId:
-      "https://docs.google.com/document/d/19XOgY9bZA5zdmYhtncrJa5DUp9j41N9z/preview",
-  },
+  }
 
 ];
