@@ -158,3 +158,9 @@ const techStack = sortBySkillOrder(project.techStack);
     </p>
   </article>
 </BaseLayout>
+
+<script define:vars={{ projectSlug: project.slug, projectTitle: project.title }}>
+  import { trackProjectView } from '../utils/analytics';
+
+  trackProjectView(projectSlug, projectTitle);
+</script>

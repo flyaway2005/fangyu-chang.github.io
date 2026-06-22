@@ -45,6 +45,8 @@ import { skillGroups } from '../data/skills';
 </section>
 
 <script>
+  import { trackSkillClick } from '../utils/analytics';
+
   const grid = document.getElementById('project-grid');
   const skillTags = document.querySelectorAll<HTMLButtonElement>('.project-skill-tag');
   const clearButton = document.getElementById('project-skill-clear');
@@ -98,13 +100,17 @@ import { skillGroups } from '../data/skills';
       }
     }
 
-    function toggleSkill(skill: string, tag: HTMLButtonElement) {
+    function toggleSkill(skill: string, tag: HTMLButtonElement, track = true) {
+      const selecting = !selectedSkills.has(skill);
       if (selectedSkills.has(skill)) {
         selectedSkills.delete(skill);
         setTagActive(tag, false);
       } else {
         selectedSkills.add(skill);
         setTagActive(tag, true);
+      }
+      if (track) {
+        trackSkillClick(skill, selecting ? 'select' : 'deselect');
       }
       updateClearButton();
       applySort();
@@ -129,7 +135,7 @@ import { skillGroups } from '../data/skills';
     if (skillFromUrl) {
       const matchingTag = Array.from(skillTags).find((tag) => tag.dataset.skill === skillFromUrl);
       if (matchingTag?.dataset.skill) {
-        toggleSkill(matchingTag.dataset.skill, matchingTag);
+        toggleSkill(matchingTag.dataset.skill, matchingTag, false);
       }
     }
   }
